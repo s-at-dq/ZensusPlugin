@@ -1,16 +1,16 @@
 <?php
 /**
-* create zensus_xmlheader
-*
-* This function creates a xml-header for output.
-* Its contents are Name of University, Stud.IP-Version, Range of Export (e.g. "root"), and temporal range.
-*
-* @access   public
-* @return       string  xml-header
-*/
+ * create zensus_xmlheader
+ *
+ * This function creates a xml-header for output.
+ * Its contents are Name of University, Stud.IP-Version, Range of Export (e.g. "root"), and temporal range.
+ *
+ * @access   public
+ * @return       string  xml-header
+ */
 function zensus_xmlheader($ex_sem = '')
 {
-global $UNI_NAME_CLEAN, $SOFTWARE_VERSION;
+    global $UNI_NAME_CLEAN, $SOFTWARE_VERSION;
     $semester = $ex_sem ? Semester::find($ex_sem) : Semester::findCurrent();
     $xml_tag_string = '<?xml version="1.0" encoding="utf-8" ?>' . "\n";
     $xml_tag_string .= "<studip version=\"" . zensus_xmlescape ($SOFTWARE_VERSION) . "\" logo=\"". zensus_xmlescape ($GLOBALS['ASSETS_URL']."images/logos/logo2b.gif") . "\"";
@@ -22,17 +22,17 @@ global $UNI_NAME_CLEAN, $SOFTWARE_VERSION;
 }
 
 /**
-* create opening xml-tag
-*
-* This function creates an open xml-tag.
-* The tag-name is defined by the given parameter $tag_name.
-* An optional parameter allows to set an attribute named "key".
-*
-* @access   public
-* @param        string  tag name
-* @param        string  value for optional attribute "key"
-* @return       string  xml open tag
-*/
+ * create opening xml-tag
+ *
+ * This function creates an open xml-tag.
+ * The tag-name is defined by the given parameter $tag_name.
+ * An optional parameter allows to set an attribute named "key".
+ *
+ * @access   public
+ * @param        string  tag name
+ * @param        string  value for optional attribute "key"
+ * @return       string  xml open tag
+ */
 function zensus_xmlopen_tag($tag_name, $tag_key = "")
 {
     if ($tag_key != "")
@@ -42,15 +42,15 @@ function zensus_xmlopen_tag($tag_name, $tag_key = "")
 }
 
 /**
-* create closing xml-tag
-*
-* This function creates a closed xml-tag.
-* The tag-name is defined by the given parameter $tag_name.
-*
-* @access   public
-* @param        string  tag name
-* @return       string  xml close tag
-*/
+ * create closing xml-tag
+ *
+ * This function creates a closed xml-tag.
+ * The tag-name is defined by the given parameter $tag_name.
+ *
+ * @access   public
+ * @param        string  tag name
+ * @return       string  xml close tag
+ */
 function zensus_xmlclose_tag($tag_name)
 {
     $xml_tag_string = "</" . $tag_name .  ">\n";
@@ -58,18 +58,18 @@ function zensus_xmlclose_tag($tag_name)
 }
 
 /**
-* create xml-tag
-*
-* This function creates a xml-tag.
-* The tag-name is defined by the given parameter $tag_name.
-* The given parameter tag_content is put between open tag and close tag.
-*
-* @access   public
-* @param        string  tag name
-* @param        string  content for xml-tag
-* @param        array   array of tag attributes
-* @return       string  xml tag
-*/
+ * create xml-tag
+ *
+ * This function creates a xml-tag.
+ * The tag-name is defined by the given parameter $tag_name.
+ * The given parameter tag_content is put between open tag and close tag.
+ *
+ * @access   public
+ * @param        string  tag name
+ * @param        string  content for xml-tag
+ * @param        array   array of tag attributes
+ * @return       string  xml tag
+ */
 function zensus_xmltag($tag_name, $tag_content, $tag_attributes = null)
 {
     if (is_array($tag_attributes)){
@@ -78,20 +78,20 @@ function zensus_xmltag($tag_name, $tag_content, $tag_attributes = null)
         }
     }
     $xml_tag_string = "<" . $tag_name . $xml_tag_string .  ">"
-        . zensus_xmlescape ( $tag_content )
-        . "</" . $tag_name .  ">\n";
+                    . zensus_xmlescape ( $tag_content )
+                    . "</" . $tag_name .  ">\n";
     return $xml_tag_string;
 }
 
 /**
-* create xml-footer
-*
-* This function creates the footer for xml output,
-* which is a closing "studip"-tag.
-*
-* @access   public
-* @return       string  xml footer
-*/
+ * create xml-footer
+ *
+ * This function creates the footer for xml output,
+ * which is a closing "studip"-tag.
+ *
+ * @access   public
+ * @return       string  xml footer
+ */
 function zensus_xmlfooter()
 {
     $xml_tag_string = "</studip>";
@@ -117,15 +117,15 @@ function zensus_xmlescape($string, $utf8encode = true)
 }
 
 /**
-* Writes the xml-stream into a file or to the screen.
-*
-* This function writes the xml-stream $object_data into a file or to the screen,
-* depending on the content of $output_mode.
-*
-* @access   public
-* @param        string  $object_data    xml-stream
-* @param        string  $output_mode    switch for output target
-*/
+ * Writes the xml-stream into a file or to the screen.
+ *
+ * This function writes the xml-stream $object_data into a file or to the screen,
+ * depending on the content of $output_mode.
+ *
+ * @access   public
+ * @param        string  $object_data    xml-stream
+ * @param        string  $output_mode    switch for output target
+ */
 function zensus_output_data($object_data, $output_mode = "direct", $flush = false)
 {
     global $xml_file;
@@ -150,14 +150,14 @@ function zensus_output_data($object_data, $output_mode = "direct", $flush = fals
 }
 
 /**
-* Exports data of the given range.
-*
-* This function calls the functions that export the data sepcified by the given $export_range.
-* It calls the function output_data afterwards.
-*
-* @access   public
-* @param        string  $range_id   Stud.IP-range_id for export
-*/
+ * Exports data of the given range.
+ *
+ * This function calls the functions that export the data sepcified by the given $export_range.
+ * It calls the function output_data afterwards.
+ *
+ * @access   public
+ * @param        string  $range_id   Stud.IP-range_id for export
+ */
 function zensus_export_range($range_id, $ex_sem, $o_mode = 'direct', $auth_uid = null)
 {
     global $persons;
@@ -167,7 +167,7 @@ function zensus_export_range($range_id, $ex_sem, $o_mode = 'direct', $auth_uid =
     zensus_output_data ( zensus_xmlheader(), $o_mode);
 
     if ($auth_uid) {
-        if (get_global_perm($auth_uid) != 'root') {
+        if ($GLOBALS['perm']->get_perm($auth_uid) != 'root') {
 
             $z_role = current(array_filter(RolePersistence::getAssignedRoles($auth_uid), function ($r) {
                 return $r->rolename == 'ZensusAdmin';
@@ -269,16 +269,16 @@ function zensus_export_range($range_id, $ex_sem, $o_mode = 'direct', $auth_uid =
                 if (is_array($sem_ids) || $range_id == 'root') {
                     if (is_array($sem_ids)) {
                         $to_export = DbManager::get()
-                            ->query("SELECT DISTINCT Institut_id FROM seminare
+                                              ->query("SELECT DISTINCT Institut_id FROM seminare
                                       WHERE Seminar_id IN('" . join("','", $sem_ids) . "')")
-                            ->fetchAll(PDO::FETCH_COLUMN);
+                                              ->fetchAll(PDO::FETCH_COLUMN);
                     } else {
                         $sem_ids = 'root';
                         $to_export = DbManager::get()
-                            ->query("SELECT DISTINCT Institut_id FROM seminare INNER JOIN seminar_sem_tree USING(seminar_id)
+                                              ->query("SELECT DISTINCT Institut_id FROM seminare INNER JOIN seminar_sem_tree USING(seminar_id)
                                     " . ($semester ?
-                                    "WHERE seminare.start_time <=" . $semester->beginn . " AND (" . $semester->beginn . " <= (seminare.start_time + seminare.duration_time) OR seminare.duration_time = -1)"
-                                    : ""))->fetchAll(PDO::FETCH_COLUMN);
+                                         "WHERE seminare.start_time <=" . $semester->beginn . " AND (" . $semester->beginn . " <= (seminare.start_time + seminare.duration_time) OR seminare.duration_time = -1)"
+                                       : ""))->fetchAll(PDO::FETCH_COLUMN);
                     }
                     foreach ($to_export as $inst) zensus_export_inst($inst, $sem_ids, $o_mode);
                 }
@@ -293,15 +293,15 @@ function zensus_export_range($range_id, $ex_sem, $o_mode = 'direct', $auth_uid =
 
 
 /**
-* Exports a Stud.IP-institute.
-*
-* This function gets the data of an institute and writes it into $data_object.
-* It calls one of the functions export_sem, export_pers or export_teilis and then output_data.
-*
-* @access   public
-* @param        string  $inst_id    Stud.IP-inst_id for export
-* @param        string  $ex_sem_id  allows to choose if only a specific lecture is to be exported
-*/
+ * Exports a Stud.IP-institute.
+ *
+ * This function gets the data of an institute and writes it into $data_object.
+ * It calls one of the functions export_sem, export_pers or export_teilis and then output_data.
+ *
+ * @access   public
+ * @param        string  $inst_id    Stud.IP-inst_id for export
+ * @param        string  $ex_sem_id  allows to choose if only a specific lecture is to be exported
+ */
 function zensus_export_inst($inst_id, $ex_sem_id = "all", $o_mode = 'direct')
 {
     global $xml_file, $xml_names_inst, $xml_groupnames_inst, $INST_TYPE;
@@ -317,7 +317,7 @@ function zensus_export_inst($inst_id, $ex_sem_id = "all", $o_mode = 'direct')
         if (($key == "type") AND ($INST_TYPE[$db->f($key)]["name"] != ""))
             $data_object .= zensus_xmltag($val, $INST_TYPE[$db->f($key)]["name"]);
         elseif ($db->f($key) != "")
-            $data_object .= zensus_xmltag($val, $db->f($key));
+        $data_object .= zensus_xmltag($val, $db->f($key));
     }
     reset($xml_names_inst);
     $db->query("SELECT Name, Institut_id FROM Institute WHERE Institut_id = '" . $db->f('fakultaets_id') . "' AND fakultaets_id = '" . $db->f('fakultaets_id') . "'");
@@ -339,15 +339,15 @@ function zensus_export_inst($inst_id, $ex_sem_id = "all", $o_mode = 'direct')
 }
 
 /**
-* Exports lecture-data.
-*
-* This function gets the data of the lectures at an institute and writes it into $data_object.
-* It calls output_data afterwards.
-*
-* @access   public
-* @param        string  $inst_id    Stud.IP-inst_id for export
-* @param        string  $ex_sem_id  allows to choose if only a specific lecture is to be exported
-*/
+ * Exports lecture-data.
+ *
+ * This function gets the data of the lectures at an institute and writes it into $data_object.
+ * It calls output_data afterwards.
+ *
+ * @access   public
+ * @param        string  $inst_id    Stud.IP-inst_id for export
+ * @param        string  $ex_sem_id  allows to choose if only a specific lecture is to be exported
+ */
 function zensus_export_sem($inst_id, $ex_sem_id = "all", $o_mode = 'direct')
 {
     global $xml_file, $xml_names_lecture, $xml_groupnames_lecture, $SEM_TYPE, $SEM_CLASS, $persons;
@@ -408,19 +408,19 @@ function zensus_export_sem($inst_id, $ex_sem_id = "all", $o_mode = 'direct')
         if (($do_group) AND ($group != $db->f($group_tab_zelle)))
         {
             if ($group != "FIRSTGROUP")
-            $group_string .= zensus_xmlclose_tag($xml_groupnames_lecture["subgroup1"]);
+                $group_string .= zensus_xmlclose_tag($xml_groupnames_lecture["subgroup1"]);
             if ($group_tab_zelle == "status")
-            $group_string .= zensus_xmlopen_tag($xml_groupnames_lecture["subgroup1"], $SEM_TYPE[$db->f($group_tab_zelle)]["name"]);
+                $group_string .= zensus_xmlopen_tag($xml_groupnames_lecture["subgroup1"], $SEM_TYPE[$db->f($group_tab_zelle)]["name"]);
             else
-            $group_string .= zensus_xmlopen_tag($xml_groupnames_lecture["subgroup1"], $db->f($group_tab_zelle));
+                $group_string .= zensus_xmlopen_tag($xml_groupnames_lecture["subgroup1"], $db->f($group_tab_zelle));
             $group = $db->f($group_tab_zelle);
             if (($do_subgroup) AND ($subgroup == $db->f($subgroup_tab_zelle)))
-            $subgroup = "NEXTGROUP";
+                $subgroup = "NEXTGROUP";
         }
         if (($do_subgroup) AND ($subgroup != $db->f($subgroup_tab_zelle)))
         {
             if ($subgroup != "FIRSTGROUP")
-            $group_string = zensus_xmlclose_tag($xml_groupnames_lecture["subgroup2"]) . $group_string;
+                $group_string = zensus_xmlclose_tag($xml_groupnames_lecture["subgroup2"]) . $group_string;
             $group_string .= zensus_xmlopen_tag($xml_groupnames_lecture["subgroup2"], $db->f($subgroup_tab_zelle));
             $subgroup = $db->f($subgroup_tab_zelle);
         }
@@ -474,9 +474,9 @@ function zensus_export_sem($inst_id, $ex_sem_id = "all", $o_mode = 'direct')
             $persons[$db2->f('user_id')] = true;
             $content_string = $db2->f("Vorname") . " " . $db2->f("Nachname");
             if ($db2->f("title_front") != "")
-            $content_string = $db2->f("title_front") . " " . $content_string;
+                $content_string = $db2->f("title_front") . " " . $content_string;
             if ($db2->f("title_rear") != "")
-            $content_string = $content_string . ", " . $db2->f("title_rear");
+                $content_string = $content_string . ", " . $db2->f("title_rear");
             $data_object .= zensus_xmltag($xml_groupnames_lecture["childobject2"], $content_string, array('key' => $db2->f('username')));
         }
         $data_object .= zensus_xmlclose_tag( $xml_groupnames_lecture["childgroup2"] );
@@ -489,9 +489,9 @@ function zensus_export_sem($inst_id, $ex_sem_id = "all", $o_mode = 'direct')
     }
 
     if (($do_subgroup) AND ($subgroup != "FIRSTGROUP"))
-    $data_object .= zensus_xmlclose_tag($xml_groupnames_lecture["subgroup2"]);
+        $data_object .= zensus_xmlclose_tag($xml_groupnames_lecture["subgroup2"]);
     if (($do_group) AND ($group != "FIRSTGROUP"))
-    $data_object .= zensus_xmlclose_tag($xml_groupnames_lecture["subgroup1"]);
+        $data_object .= zensus_xmlclose_tag($xml_groupnames_lecture["subgroup1"]);
 
     $data_object .= zensus_xmlclose_tag($xml_groupnames_lecture["group"]);
     zensus_output_data($data_object, $o_mode);
@@ -501,12 +501,12 @@ function zensus_export_sem($inst_id, $ex_sem_id = "all", $o_mode = 'direct')
 
 
 /**
-* Exports list of persons.
-*
-*
-* @access   public
-* @param        array   $persons    Stud.IP-user_ids for export
-*/
+ * Exports list of persons.
+ *
+ *
+ * @access   public
+ * @param        array   $persons    Stud.IP-user_ids for export
+ */
 function zensus_export_persons($persons, $o_mode = 'direct')
 {
     global $xml_names_person, $xml_groupnames_person;
@@ -535,14 +535,14 @@ function zensus_export_persons($persons, $o_mode = 'direct')
 }
 
 /**
-* helper function to export custom datafields
-*
-* only visible datafields are exported (depending on user perms)
-* @access   public
-* @param    string  $range_id   id for object to export
-* @param    string  $childgroup_tag name of outer tag
-* @param    string  $childobject_tag    name of inner tags
-*/
+ * helper function to export custom datafields
+ *
+ * only visible datafields are exported (depending on user perms)
+ * @access   public
+ * @param    string  $range_id   id for object to export
+ * @param    string  $childgroup_tag name of outer tag
+ * @param    string  $childobject_tag    name of inner tags
+ */
 function zensus_export_datafields($range_id, $childgroup_tag, $childobject_tag, $object_type = null, $object_class_hint = null){
     $ret = '';
     $d_fields = false;

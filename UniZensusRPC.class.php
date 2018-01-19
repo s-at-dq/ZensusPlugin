@@ -1,6 +1,5 @@
 <?php
 require_once "vendor/phpxmlrpc/xmlrpc.inc";
-#require_once "lib/datei.inc.php";
 
 class UniZensusRPC {
 

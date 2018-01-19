@@ -49,8 +49,8 @@ class UniZensusPlugin extends StudipPlugin implements StandardPlugin
         $this->setId($course_id);
         if ($this->isVisible()) {
             $tab = new Navigation(Config::get()->UNIZENSUSPLUGIN_DISPLAYNAME, PluginEngine::getUrl($this),array(),'show');
-            $tab->setActiveImage(Assets::image_path('icons/16/black/evaluation'));
-            $tab->setImage(Assets::image_path('icons/16/white/evaluation'));
+            $tab->setActiveImage(Icon::create('evaluation', 'info'));
+            $tab->setImage(Icon::create('evaluation', 'info_alt'));
             return array(get_class($this) => $tab);
         }
     }
@@ -261,7 +261,11 @@ class UniZensusPlugin extends StudipPlugin implements StandardPlugin
     function show_action()
     {
         if (!$this->isVisible()) return;
-        PageLayout::setTitle($_SESSION['SessSemName']['header_line'] . ' - ' . Config::get()->UNIZENSUSPLUGIN_DISPLAYNAME);
+        PageLayout::setTitle(
+            Context::getHeaderLine()
+                   . ' - '
+                   . Config::get()->UNIZENSUSPLUGIN_DISPLAYNAME
+        );
         Navigation::activateItem('/course/' . get_class($this));
         ob_start();
         $this->getCourseAndUserStatus();
@@ -440,7 +444,9 @@ class UniZensusPlugin extends StudipPlugin implements StandardPlugin
             ');
 
         if ($GLOBALS['perm']->have_studip_perm('dozent', $this->getId())) {
-            echo chr(10) . '<div><a href="#" title="Ihre Studierenden können den QR-Code mit dem Smartphone vom Beamer abscannen und gleich in der Veranstaltung abstimmen." onClick="STUDIP.QRCourse.showQR(); return false;">' . Assets::img('icons/blue/code-qr.svg', array('width' => '64')). '&nbsp;QR-Code anzeigen</a></div>';
+            echo chr(10) . '<div><a href="#" title="Ihre Studierenden können den QR-Code mit dem Smartphone vom Beamer abscannen und gleich in der Veranstaltung abstimmen." onClick="STUDIP.QRCourse.showQR(); return false;">'
+            . Icon::create('code-qr', 'clickable')->asImg('64px')
+                  . '&nbsp;QR-Code anzeigen</a></div>';
         }
         echo chr(10) . '<h3>' . _("Status der Lehrevaluation:") . '</h3>';
         if (isset($this->course_status['time_frame'])){
